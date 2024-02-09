@@ -1,0 +1,12 @@
+version: '3.8'
+
+services:
+  rabbit:
+    image: rabbitmq:3.13-rc
+    ports:
+      - 15671:15672
+      - 5671:5672
+    container_name: rabbit-mq
+    environment:
+      - RABBITMQ_DEFAULT_USER=renas
+      - RABBITMQ_DEFAULT_PASS=root
