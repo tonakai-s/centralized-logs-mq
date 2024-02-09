@@ -1,7 +1,8 @@
 version: '3.8'
 
 services:
-  rabbit:
+  rabbitmq:
+    hostname: 'dev-rabbitmq'
     image: rabbitmq:3.13-rc
     ports:
       - 15671:15672
@@ -10,3 +11,9 @@ services:
     environment:
       - RABBITMQ_DEFAULT_USER=renas
       - RABBITMQ_DEFAULT_PASS=root
+    volumes:
+      - ./docker/rabbitmq/data/:/var/lib/rabbitmq/mnesia/:z
+
+networks:
+  broker:
+    driver: bridge
