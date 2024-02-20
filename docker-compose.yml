@@ -13,6 +13,29 @@ services:
       - RABBITMQ_DEFAULT_PASS=root
     volumes:
       - ./docker/rabbitmq/data/:/var/lib/rabbitmq/mnesia/:z
+    networks:
+      - broker
+  elastic:
+    image: docker.elastic.co/elasticsearch/elasticsearch:7.17.18
+    container_name: elastic
+    volumes:
+      - data01:/usr/share/elasticsearch/data:z
+    ports:
+      - 9200:9200
+    environment:
+      - bootstrap.memory_lock=true
+      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+      - cluster.initial_master_nodes=elastic
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+    networks:
+      - broker
+
+volumes:
+  data01:
+    driver: local
 
 networks:
   broker:
