@@ -11,11 +11,13 @@ async fn main() -> Result<(), lapin::Error> {
     let channel = conn.create_channel().await?;
 
     let two_sec = Duration::from_secs(2);
+    let mut counter = 1;
     loop {
         let message = "This is a message from my Rust Producer.".as_bytes();
         channel.basic_publish("first-exchange", "", BasicPublishOptions::default(), message, AMQPProperties::default()).await?;
 
-        println!("Sended a message");
-        std::thread::sleep(two_sec)
+        println!("Sended a message for the {counter} time.");
+        counter += 1;
+        std::thread::sleep(two_sec);
     }
 }
