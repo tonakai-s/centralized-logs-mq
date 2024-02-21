@@ -23,6 +23,7 @@ services:
     ports:
       - 9200:9200
     environment:
+      - node.name=elastic
       - bootstrap.memory_lock=true
       - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
       - cluster.initial_master_nodes=elastic
@@ -32,6 +33,13 @@ services:
         hard: -1
     networks:
       - broker
+  kibana:
+    ports:
+     - 5601:5601
+    image: docker.elastic.co/kibana/kibana:8.12.1
+    environment:
+      SERVER_NAME: kibana.example.org
+      ELASTICSEARCH_HOSTS: '["http://localhost:9200"]'
 
 volumes:
   data01:
